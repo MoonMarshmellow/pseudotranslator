@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { FaArrowRight, FaPython } from "react-icons/fa";
@@ -10,6 +10,7 @@ import TabItem from "./tabitem";
 import { IconType } from "react-icons";
 import ReactSyntaxHighlighter from "react-syntax-highlighter";
 import { qtcreatorDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { formatRevalidate } from "next/dist/server/lib/revalidate";
 
 const formTabs = [
   {
@@ -18,6 +19,10 @@ const formTabs = [
   },
   {
     title: "JavaScript",
+    icon: IoLogoJavascript,
+  },
+  {
+    title: "IB PseudoCode",
     icon: IoLogoJavascript,
   },
 ];
@@ -30,21 +35,54 @@ export type TabItemType = {
 export default function Translator() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
+  const [selectedFromTab, setSelectedFromTab] = useState(formTabs[0].title);
+  const [selectedToTab, setSelectedToTab] = useState(formTabs[1].title);
+  const [outputLang, setOutputLang] = useState("lua");
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
+  useEffect(() => {
+    const index1 = formTabs.map((e) => e.title).indexOf(selectedFromTab);
+    if (selectedFromTab == selectedToTab) {
+      console.log("same");
+      console.log("index1", index1);
+      const newIndex = index1 + 1 == formTabs.length ? index1 - 1 : index1 + 1;
+      console.log("newIndex", newIndex);
+      setSelectedFromTab(formTabs[newIndex].title);
+    }
+  }, [selectedToTab]);
+
+  useEffect(() => {
+    const index2 = formTabs.map((e) => e.title).indexOf(selectedToTab);
+    const newIndex = 1;
+    if (selectedFromTab == selectedToTab) {
+      console.log("same");
+      console.log("index2", index2);
+      const newIndex = index2 + 1 == formTabs.length ? index2 - 1 : index2 + 1;
+      console.log("newIndex", newIndex);
+      setSelectedToTab(formTabs[newIndex].title);
+    }
+  }, [selectedFromTab]);
+
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
   };
 
-  const onSubmit = async (input: string, language: string) => {
+  const onSubmit = async (
+    input: string,
+    languageFrom: string,
+    languageTo: string
+  ) => {
     setLoading(true);
     try {
-      const request = { code: input, language: language };
+      const request = {
+        code: input,
+        languageFrom: languageFrom,
+        languageTo: languageTo,
+      };
       const res = await fetch("/api", {
         method: "POST",
         headers: {
@@ -75,8 +113,8 @@ export default function Translator() {
                 <TabItem
                   key={item.title}
                   item={item}
-                  selected={item.title === selectedTab}
-                  setSelectedTab={setSelectedTab}
+                  selected={item.title === selectedFromTab}
+                  setSelectedTab={setSelectedFromTab}
                 />
               ))}
             </div>
@@ -85,7 +123,7 @@ export default function Translator() {
               onBlur={onBlur}
               onChange={onInputChange}
               placeholder="Paste your code here!"
-              className="peer h-full min-h-[160px] w-full bg-accent/5 resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+              className="peer w-full min-h-[160px] bg-accent/5 resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
             ></TextareaAutosize>
           </div>
           {loading ? (
@@ -95,23 +133,39 @@ export default function Translator() {
           ) : (
             <button
               onClick={() => {
-                onSubmit(input, selectedTab);
+                onSubmit(input, selectedFromTab, selectedToTab);
               }}
               className="bg-accent text-white h-5 p-5 m-20 flex items-center rounded-[8px] transition-all hover:bg-accent/90 hover:rounded-[20px]"
             >
               <FaArrowRight />
             </button>
           )}
-          <div className="basis-1/2">
-            <ReactSyntaxHighlighter
-              language="lua"
-              style={qtcreatorDark}
-              customStyle={{ background: "rbg(189,61,205,0.05" }}
-              className="whitespace-pre h-full w-full bg-accent/5 rounded-[8px] border border-white text-white px-3 py-2.5 text-sm font-sans font-normal"
+          <div className="basis-1/2 flex flex-col flex-grow">
+            <div
+              className={`h-[40px] bg-accent/5 flex flex-row w-full rounded-t-[8px] overflow-hidden border border-blue-gray-200 border-b-0`}
             >
-              {/* {output} */}
-              loop while 1 = 5
-            </ReactSyntaxHighlighter>
+              {formTabs.map((item) => (
+                <TabItem
+                  key={item.title}
+                  item={item}
+                  selected={item.title === selectedToTab}
+                  setSelectedTab={setSelectedToTab}
+                />
+              ))}
+            </div>
+
+            <div className="whitespace-pre peer flex-grow w-full min-h-[160px] bg-accent/5 resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50">
+              <ReactSyntaxHighlighter
+                language={selectedToTab.toLocaleLowerCase()}
+                style={qtcreatorDark}
+                customStyle={{
+                  background: "rbg(189,61,205,0.05)",
+                }}
+                // className="whitespace-pre bg-accent/5 rounded-[8px] border border-white text-white px-3 py-2.5 text-sm font-sans font-normal"
+              >
+                {output}
+              </ReactSyntaxHighlighter>
+            </div>
           </div>
         </div>
       </div>
