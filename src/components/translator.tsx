@@ -4,7 +4,7 @@ import { use, useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { FaArrowRight, FaPython } from "react-icons/fa";
-import { IoLogoJavascript } from "react-icons/io";
+import { RiJavascriptFill } from "react-icons/ri";
 import { AiOutlineLoading } from "react-icons/ai";
 import TabItem from "./tabitem";
 import { IconType } from "react-icons";
@@ -19,17 +19,16 @@ const formTabs = [
   },
   {
     title: "JavaScript",
-    icon: IoLogoJavascript,
+    icon: RiJavascriptFill,
   },
   {
     title: "IB PseudoCode",
-    icon: IoLogoJavascript,
   },
 ];
 
 export type TabItemType = {
   title: string;
-  icon: IconType;
+  icon?: IconType;
 };
 
 export default function Translator() {
@@ -102,11 +101,13 @@ export default function Translator() {
   return (
     <>
       <div className=" flex items-center align-middle justify-center">
-        <div className="flex flex-row m-8 space-x-2 lg:w-[70%] sm:w-full md:w-full">
-          <div className="basis-1/2 flex-col">
+        <div className="flex lg:flex-row md:flex-row flex-col space-x-2 w-full">
+          <div className="basis-1/2 flex-col ">
             <div
-              className={`h-[40px] bg-accent/5 flex flex-row w-full rounded-t-[8px] overflow-hidden border border-blue-gray-200 border-b-0 ${
-                focused ? "border-accent border-b-0 border-2 bg-accent/10" : ""
+              className={`h-[40px] flex flex-row w-full rounded-t-[8px] overflow-hidden border border-blue-gray-200 border-b-0 ${
+                focused
+                  ? "border-accent border-b-0 border-2 bg-accent/5"
+                  : "bg-[#0f0f0f]"
               }`}
             >
               {formTabs.map((item) => (
@@ -123,11 +124,11 @@ export default function Translator() {
               onBlur={onBlur}
               onChange={onInputChange}
               placeholder="Paste your code here!"
-              className="peer w-full min-h-[160px] bg-accent/5 resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+              className="peer w-full min-h-[160px] bg-[#0f0f0f] resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/5 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
             ></TextareaAutosize>
           </div>
           {loading ? (
-            <button className="bg-accent/90 text-white h-5 p-5 m-20 flex items-center transition-all rounded-[20px]">
+            <button className="bg-accent/90 text-white lg:w-[60px] font-sans font-bold align-middle md:w-[60px] h-5 p-5 m-20 flex items-center transition-all rounded-[20px]">
               <AiOutlineLoading className="animate-spin" />
             </button>
           ) : (
@@ -135,14 +136,15 @@ export default function Translator() {
               onClick={() => {
                 onSubmit(input, selectedFromTab, selectedToTab);
               }}
-              className="bg-accent text-white h-5 p-5 m-20 flex items-center rounded-[8px] transition-all hover:bg-accent/90 hover:rounded-[20px]"
+              className="bg-accent text-white h-5 p-5 m-20 lg:w-[60px] font-sans font-bold align-middle md:w-[60px] justify-center flex items-center rounded-[8px] transition-all hover:bg-accent/90 hover:rounded-[20px]"
             >
+              <p className="mr-2 lg:hidden md:hidden">Convert</p>
               <FaArrowRight />
             </button>
           )}
           <div className="basis-1/2 flex flex-col flex-grow">
             <div
-              className={`h-[40px] bg-accent/5 flex flex-row w-full rounded-t-[8px] overflow-hidden border border-blue-gray-200 border-b-0`}
+              className={`h-[40px] bg-[#0f0f0f] flex flex-row w-full rounded-t-[8px] overflow-hidden border border-blue-gray-200 border-b-0`}
             >
               {formTabs.map((item) => (
                 <TabItem
@@ -154,7 +156,7 @@ export default function Translator() {
               ))}
             </div>
 
-            <div className="whitespace-pre peer flex-grow w-full min-h-[160px] bg-accent/5 resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50">
+            <div className="whitespace-pre peer flex-grow w-full min-h-[160px] bg-[#0f0f0f] resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/10 focus:outline-0">
               <ReactSyntaxHighlighter
                 language={selectedToTab.toLocaleLowerCase()}
                 style={qtcreatorDark}

@@ -21,7 +21,7 @@ export default function TabItem({
         }`}
         onClick={() => setSelectedTab(item.title)}
       >
-        <Icon className="text-white mr-2" />
+        {item.icon && <Icon className="text-white mr-2" />}
         <p className="text-sm text-white">{item.title}</p>
       </div>
     </>

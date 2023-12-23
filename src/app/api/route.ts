@@ -18,6 +18,8 @@ export async function POST(request: Request) {
         {'role': 'user', 'content': `Translate the following ${message.languageFrom} code into ${message.languageTo}. Do not include anything except the code in your response: ${message.code}`}],
         model: 'gpt-3.5-turbo',
     });
+
+    console.log(response.usage)
     
     return Response.json(response.choices[0].message.content)
 
