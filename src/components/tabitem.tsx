@@ -14,7 +14,7 @@ export default function TabItem({
   return (
     <>
       <div
-        className={`flex flex-row items-center justify-center w-full font-bold cursor-pointer hover:bg-accent/20 ${
+        className={`flex flex-row items-center justify-center w-full font-bold cursor-pointer transition-colors hover:bg-accent/20 ${
           selected
             ? "bg-accent/50 hover:bg-accent/50 border-b-2 border-b-accent"
             : "bg-accent/0"

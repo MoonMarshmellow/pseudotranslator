@@ -1,7 +1,6 @@
 import NavBar from "@/components/navbar";
 import Translator from "@/components/translator";
-import Image from "next/image";
-import Link from "next/link";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function Home() {
   return (
@@ -31,6 +30,18 @@ export default function Home() {
               have been trained on the syntax of the IB pseudocode. Code
               tranlated into Python or Javascript can be run.
             </p>
+          </div>
+        </div>
+      </div>
+      <div className=" absolute w-full flex justify-center mb-1 mt-20">
+        <div className="absolute w-full flex justify-center">
+          <p className="text-gray-500 font-sans text-sm">
+            Created by Marios Katzigkas
+          </p>
+          <div className="text-gray-200 mt-[3px] ml-1">
+            <a href="https://twitter.com/MariosKatzigkas" target="_blank">
+              <FaXTwitter />
+            </a>
           </div>
         </div>
       </div>

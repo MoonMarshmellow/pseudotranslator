@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import User from "./user";
 
 export default function NavBar() {
   return (
@@ -26,6 +27,9 @@ export default function NavBar() {
           >
             Chat
           </Link>
+        </div>
+        <div className=" ml-auto">
+          <User />
         </div>
       </div>
     </>
