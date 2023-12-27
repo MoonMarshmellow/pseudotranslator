@@ -7,7 +7,7 @@ export default function NavBar() {
     <>
       <div className="align-middle pt-3 pb-3 mt-1 mb-1 flex flex-row content-center w-full font-sans text-white">
         <Image
-          className="mt-[1px] mr-2"
+          className="mt-[1px] h-[30px] mr-2"
           src="/icon.png"
           height={30}
           width={30}

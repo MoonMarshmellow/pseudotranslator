@@ -56,6 +56,7 @@ export default function SignUp({ modal }: SignUpProps) {
     if (userCred) {
       createUserDocument(userCred.user);
     }
+    console.log(userCred);
   }, [userCred]);
   return (
     <form onSubmit={onSubmit}>
@@ -85,8 +86,10 @@ export default function SignUp({ modal }: SignUpProps) {
           onChange={onChange}
           className=" transition-all shadow appearance-none  bg-lightgray border border-lightgray rounded-md w-full py-2 px-3 text-sm text-white leading-tight hover:bg-lightgray/80 focus:outline-none focus:border-white focus:shadow-outline"
         ></input>
-        {userError && <p>{userError.message}</p>}
-        {error != "" && <p>{error}</p>}
+        <div className="text-sm text-red-500 text-center">
+          {userError && <p>{userError.message}</p>}
+          {error != "" && <p>{error}</p>}
+        </div>
         <button
           type="submit"
           className="text-white transition-all font-semibold pt-1 pb-1 text-center bg-accent hover:bg-accent/70 rounded-md mt-4 lg:mb-0 md:mb-0 mb-4"
