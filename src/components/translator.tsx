@@ -11,6 +11,9 @@ import { IconType } from "react-icons";
 import ReactSyntaxHighlighter from "react-syntax-highlighter";
 import { qtcreatorDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { formatRevalidate } from "next/dist/server/lib/revalidate";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, firestore } from "@/firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const formTabs = [
   {
@@ -39,6 +42,7 @@ export default function Translator() {
   const [outputLang, setOutputLang] = useState("lua");
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [user, loadingUser, error] = useAuthState(auth);
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
@@ -81,6 +85,7 @@ export default function Translator() {
         code: input,
         languageFrom: languageFrom,
         languageTo: languageTo,
+        user: user,
       };
       const res = await fetch("/api", {
         method: "POST",
@@ -92,6 +97,9 @@ export default function Translator() {
       const data = await res.json();
       console.log(data);
       setOutput(data);
+
+      // const gayRef = doc(firestore, "gay", "shid");
+      // await setDoc(gayRef, JSON.parse(JSON.stringify({ ass: "nice" })));
     } catch (error) {
       console.log("onSubmit error: ", error);
     }

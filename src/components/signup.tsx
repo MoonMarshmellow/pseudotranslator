@@ -5,6 +5,7 @@ import { User } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
+  useAuthState,
   useCreateUserWithEmailAndPassword,
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
@@ -25,15 +26,37 @@ export default function SignUp({ modal }: SignUpProps) {
 
   //Firebase Logic
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError("");
+    console.log(error);
     if (signUpForm.password !== signUpForm.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
-    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
+    const user = await createUserWithEmailAndPassword(
+      signUpForm.email,
+      signUpForm.password
+    );
+    if (user) {
+      const userData = {
+        ...user.user,
+        accessToken: undefined,
+        auth: undefined,
+        proactiveRefresh: undefined,
+        providerData: undefined,
+        reloadUserInfo: undefined,
+        stsTokenManager: undefined,
+      };
+      await fetch("/api/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+    }
     modal(false);
   };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,21 +66,6 @@ export default function SignUp({ modal }: SignUpProps) {
     }));
   };
 
-  const createUserDocument = async (user: User) => {
-    // await addDoc(
-    //   collection(firestore, "users"),
-    //   JSON.parse(JSON.stringify(user?.uid))
-    // );
-    const userDocRef = doc(firestore, "users", user?.uid);
-    await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
-  };
-
-  useEffect(() => {
-    if (userCred) {
-      createUserDocument(userCred.user);
-    }
-    console.log(userCred);
-  }, [userCred]);
   return (
     <form onSubmit={onSubmit}>
       <div className="mt-4 flex flex-col ">

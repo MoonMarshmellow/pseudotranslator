@@ -1,7 +1,7 @@
 "use client";
 
 import { auth } from "@/firebase/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 type LoginProps = {
@@ -28,6 +28,10 @@ export default function Login({ modal }: LoginProps) {
       [event.target.name]: event.target.value,
     }));
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
     <form onSubmit={onSubmit}>
       <div className="mt-4 flex flex-col ">

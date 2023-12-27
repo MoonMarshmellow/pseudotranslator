@@ -5,6 +5,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { auth } from "@/firebase/firebase";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
+import Link from "next/link";
 
 type ProfileProps = {
   user: User | null;
@@ -44,8 +45,8 @@ export default function Profile({ user }: ProfileProps) {
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href="#"
+                  <Link
+                    href="/account"
                     className={classNames(
                       active ? "bg-accent/50 text-white" : "text-white",
                       "flex items-center flex-row px-4 py-2 text-sm transition-colors"
@@ -53,7 +54,7 @@ export default function Profile({ user }: ProfileProps) {
                   >
                     <p>Account settings</p>
                     <CiSettings className="ml-auto" />
-                  </a>
+                  </Link>
                 )}
               </Menu.Item>
 
