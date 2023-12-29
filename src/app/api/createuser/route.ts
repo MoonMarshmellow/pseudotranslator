@@ -10,12 +10,13 @@ export async function POST(request: NextRequest){
 
     const userMsg = message
     
-
+    const ip = request.headers.get('X-Forwarded-For')
 
     const user = {
         ...userMsg,
         subscription: "free",
-        uses: 100
+        uses: 100,
+        ip: ip
     }
 
 

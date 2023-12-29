@@ -14,6 +14,8 @@ import { formatRevalidate } from "next/dist/server/lib/revalidate";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import NoUsesModalHandler from "./nousesmodalhandler";
 
 const formTabs = [
   {
@@ -39,10 +41,10 @@ export default function Translator() {
   const [output, setOutput] = useState("");
   const [selectedFromTab, setSelectedFromTab] = useState(formTabs[0].title);
   const [selectedToTab, setSelectedToTab] = useState(formTabs[1].title);
-  const [outputLang, setOutputLang] = useState("lua");
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [user, loadingUser, error] = useAuthState(auth);
+  const [noUses, setNoUses] = useState(false);
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
@@ -50,10 +52,7 @@ export default function Translator() {
   useEffect(() => {
     const index1 = formTabs.map((e) => e.title).indexOf(selectedFromTab);
     if (selectedFromTab == selectedToTab) {
-      console.log("same");
-      console.log("index1", index1);
       const newIndex = index1 + 1 == formTabs.length ? index1 - 1 : index1 + 1;
-      console.log("newIndex", newIndex);
       setSelectedFromTab(formTabs[newIndex].title);
     }
   }, [selectedToTab]);
@@ -62,10 +61,7 @@ export default function Translator() {
     const index2 = formTabs.map((e) => e.title).indexOf(selectedToTab);
     const newIndex = 1;
     if (selectedFromTab == selectedToTab) {
-      console.log("same");
-      console.log("index2", index2);
       const newIndex = index2 + 1 == formTabs.length ? index2 - 1 : index2 + 1;
-      console.log("newIndex", newIndex);
       setSelectedToTab(formTabs[newIndex].title);
     }
   }, [selectedFromTab]);
@@ -80,12 +76,15 @@ export default function Translator() {
     languageTo: string
   ) => {
     setLoading(true);
+    const fp = await FingerprintJS.load();
+    const { visitorId } = await fp.get();
     try {
       const request = {
         code: input,
         languageFrom: languageFrom,
         languageTo: languageTo,
         user: user,
+        deviceId: visitorId,
       };
       const res = await fetch("/api", {
         method: "POST",
@@ -95,8 +94,11 @@ export default function Translator() {
         body: JSON.stringify(request),
       });
       const data = await res.json();
-      console.log(data);
-      setOutput(data);
+      if (data !== "Not Allowed") {
+        setOutput(data);
+      } else {
+        setNoUses(true);
+      }
 
       // const gayRef = doc(firestore, "gay", "shid");
       // await setDoc(gayRef, JSON.parse(JSON.stringify({ ass: "nice" })));
@@ -179,6 +181,7 @@ export default function Translator() {
           </div>
         </div>
       </div>
+      <NoUsesModalHandler open={noUses} setOpen={setNoUses} />
     </>
   );
 }

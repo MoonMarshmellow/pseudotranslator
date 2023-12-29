@@ -15,7 +15,8 @@ const config: Config = {
         'primary': '#8fc2e2',
         'secondary': '#5e2286',
         'accent': '#bd3dcd',
-        'brightbg': '#000000'
+        'brightbg': '#000000',
+        'lightaccent': '#ec5bff'
 
       },
       backgroundImage: {
@@ -23,6 +24,12 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      dropShadow: {
+        'purple': '0 35px 35px #ec5bff'
+      },
+      boxShadow:{
+        'custom': '0 7px 30px rgba(236, 91, 255, 0.4)'
+      }
     },
   },
   plugins: [],

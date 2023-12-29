@@ -7,7 +7,8 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, firestore } from "@/firebase/firebase";
 import { TempUser } from "@/types/tempuser";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { v4 as uuidv4 } from 'uuid';
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
@@ -18,7 +19,9 @@ export const runtime = 'edge'
 export async function POST(request: NextRequest) {
 
 
-    const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth ) => {
+
+    const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string ) => {
+
         if (user){
             try{
                 const docRef = doc(firestore, "users", user.uid)
@@ -39,55 +42,63 @@ export async function POST(request: NextRequest) {
         }
         else if(!user){
             try{
-                const ipRef = doc(firestore, "temps", ip)
-                const ipDoc = await getDoc(ipRef)
-                if(ipDoc.exists()){
-                    const data = ipDoc.data()
-                    console.log(data.uses)
+                const value = uuid ? uuid.value : deviceId
+                console.log('Checked cookie or device id')
+                console.log('Value', value)
+                if (value){
+                    const tempRef = doc(firestore, "temps", value)
+                    const tempDoc = await getDoc(tempRef)
+                    const data = tempDoc.data()
+                    if(!tempDoc.exists()){
+                        const data: TempUser = {
+                            uuid: value,
+                            ip: ip,
+                            uses: 19
+                        }
+                        await setDoc(tempRef, JSON.parse(JSON.stringify(data)))
+                        console.log("Current device not found in db so created")
+                        return (value)
+                    }
                     if (data?.uses == 0) {
+                        console.log('No more uses left')
                         return false
                     }
                     if (data?.uses > 0) {
-                        const res = await updateDoc(ipRef, {uses: data?.uses - 1})
-                        return true
+                        const res = await updateDoc(tempRef, {uses: data?.uses - 1})
+                        console.log('updated uses')
+                        if(uuid){
+                            return(true)
+                        }
+                        return(value)
                     }
-                }
-                else {
-                    const data: TempUser = {
-                        ip: ip,
-                        uses: 19
-                    }
-                    
-                    console.log(ip)
-                    const newIpRef= doc(firestore, "temps", ip)
-                    await setDoc(newIpRef, JSON.parse(JSON.stringify(data)))
-                    console.log("not gay")
-                    // const gayRef = doc(firestore, "gay", "cock");
-                    // await setDoc(gayRef, JSON.parse(JSON.stringify({ ass: "nice" })));
-                    return true
-                }
-                    
+                }     
                 
-            }
-            catch(e) {
+            }catch(e) {
                 console.log("nouser", e)
             }
         }
     }
+
     const message = await request.json()
 
     const user = message.user
 
     const ip = request.headers.get('X-Forwarded-For')
-    const allowed = await requestAllowed(user, ip as string, auth)
+    const deviceId = message.deviceId
+    const allowed = await requestAllowed(user, ip as string, auth, request.cookies.get('uuid'), deviceId)
 
-    
 
-    if (allowed) {
-        return Response.json('Allowed')
-    } else {
-        return Response.json('Not Allowed')
+
+    if (typeof allowed == 'string') {
+        const response = NextResponse.json("Allowed")
+        response.cookies.set({name: 'uuid', value: allowed as string, expires: 20825436070000})
+        return response
+    } else if(allowed == true){
+        return NextResponse.json('Allowed')
+    } else if( allowed == false){
+        return NextResponse.json('Not Allowed')
     }
+
     
     
     // const response = await openai.chat.completions.create({
