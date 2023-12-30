@@ -1,12 +1,14 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PiLightningFill } from "react-icons/pi";
+import { useRouter } from "next/navigation";
+import SignUpModal from "./signupmodal";
 
 type ModalData = {
   title: string;
   body: string;
   buttonText: string;
-  setOpen: (value: boolean) => void;
+  setOpen: any;
   open: boolean;
 };
 
@@ -17,6 +19,21 @@ export default function NoUsesModal({
   open,
   setOpen,
 }: ModalData) {
+  const [open1, setOpen1] = useState(false);
+  const [login1, setLogin1] = useState(false);
+  const cancelButtonRef1 = useRef(null);
+  const router = useRouter();
+  const onSubmit = () => {
+    if (buttonText == "Sign up") {
+      setLogin1(false);
+      setOpen1(true);
+
+      setOpen(false);
+      // console.log(open);
+    } else {
+      router.push("/pricing");
+    }
+  };
   const cancelButtonRef = useRef(null);
   return (
     <>
@@ -25,7 +42,7 @@ export default function NoUsesModal({
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen(false)}
+          onClose={setOpen}
         >
           <Transition.Child
             as={Fragment}
@@ -62,7 +79,11 @@ export default function NoUsesModal({
                       <p className="text-gray-200 text-sm text-center mb-4">
                         {body}
                       </p>
-                      <button className="transition-all flex flex-row items-center bg-gradient-to-r from-[#a560ff] to-[#e008fc] text-md pt-1 pb-1 pl-2 pr-2 hover:scale-105 text-white rounded-md font-semibold hover:shadow-custom">
+                      <button
+                        onClick={onSubmit}
+                        ref={cancelButtonRef}
+                        className="transition-all flex flex-row items-center bg-gradient-to-r from-[#a560ff] to-[#e008fc] text-md pt-1 pb-1 pl-2 pr-2 hover:scale-105 text-white rounded-md font-semibold hover:shadow-custom"
+                      >
                         <p>{buttonText}</p>
                         <PiLightningFill className="ml-[5px] mt-[1px]" />
                       </button>
@@ -74,6 +95,12 @@ export default function NoUsesModal({
           </div>
         </Dialog>
       </Transition.Root>
+      <SignUpModal
+        open={open1}
+        setOpen={setOpen1}
+        login={login1}
+        cancelButtonRef={cancelButtonRef1}
+      />
     </>
   );
 }

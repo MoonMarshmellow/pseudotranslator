@@ -49,7 +49,7 @@ export default function NoUsesModalHandler({
         title={modalData[show].title}
         body={modalData[show].body}
         buttonText={modalData[show].buttonText}
-        setOpen={() => setOpen}
+        setOpen={setOpen}
         open={open}
       />
     </>

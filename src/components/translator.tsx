@@ -98,6 +98,7 @@ export default function Translator() {
         setOutput(data);
       } else {
         setNoUses(true);
+        // console.log(noUses);
       }
 
       // const gayRef = doc(firestore, "gay", "shid");

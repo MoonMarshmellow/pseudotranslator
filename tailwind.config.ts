@@ -28,7 +28,9 @@ const config: Config = {
         'purple': '0 35px 35px #ec5bff'
       },
       boxShadow:{
-        'custom': '0 7px 30px rgba(236, 91, 255, 0.4)'
+        'custom': '0 7px 30px rgba(236, 91, 255, 0.4)',
+        'card': '0 0 20px rgba(236, 91, 255, 0.4)',
+        'card2': '0 0 30px rgba(236, 91, 255, 0.5)'
       }
     },
   },

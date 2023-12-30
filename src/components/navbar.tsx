@@ -27,6 +27,12 @@ export default function NavBar() {
           >
             Chat
           </Link>
+          <Link
+            className="bg-lightgray/70 w-14 mt-[6px] rounded-full h-5 text-[13px] align-middle flex flex-row justify-center hover:bg-lightgray transition-all border border-gray-400"
+            href="/pricing"
+          >
+            Pricing
+          </Link>
         </div>
         <div className=" ml-auto">
           <User />
