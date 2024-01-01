@@ -2,8 +2,8 @@ import { NextResponse, NextRequest } from "next/server";
 import OpenAI from "openai"
 import { prompt } from "./prompt1";
 import { Run } from "openai/resources/beta/threads/index.mjs";
-import { Auth, User } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Auth, User, getAuth } from "firebase/auth";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { auth, firestore } from "@/firebase/firebase";
 import { TempUser } from "@/types/tempuser";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,21 +18,34 @@ export const runtime = 'edge'
 
 export async function POST(request: NextRequest) {
 
+    // const test  = await getDocs(collection(firestore, 'users'))
 
+    // test.forEach(doc => {
+    //     console.log(doc.id)
+    // })
 
     const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string ) => {
 
         if (user){
             try{
-                const docRef = doc(firestore, "users", user.uid)
-                const userDoc = await getDoc(docRef)
-                const data = userDoc.data()
-                if (data?.uses == 0) {
-                    return false
-                }
-                if (data?.uses > 0) {
-                    const res = await updateDoc(docRef, {uses: data?.uses - 1})
+                const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
+                const q = query(subscriptionsRef, where('status', '==', 'active'))
+                const docs = await getDocs(q)
+                if(docs.docs.length > 0){
+                    console.log('subscribed')
                     return true
+                }else{
+                    const docRef = doc(firestore, "users", user.uid)
+                    const userDoc = await getDoc(docRef)
+                    const data = userDoc.data()
+                    if (data?.uses == 0) {
+                        return false
+                    }
+                    if (data?.uses > 0) {
+                        const res = await updateDoc(docRef, {uses: data?.uses - 1})
+                        return true
+                    }
+
                 }
             }
             catch(e) {
@@ -82,6 +95,9 @@ export async function POST(request: NextRequest) {
     const message = await request.json()
 
     const user = message.user
+
+
+
 
     const ip = request.headers.get('X-Forwarded-For')
     const deviceId = message.deviceId

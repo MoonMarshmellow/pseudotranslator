@@ -16,6 +16,7 @@ import { auth, firestore } from "@/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import NoUsesModalHandler from "./nousesmodalhandler";
+import firebase from "@/firebase/firebase";
 
 const formTabs = [
   {
