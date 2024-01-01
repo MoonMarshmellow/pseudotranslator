@@ -16,7 +16,6 @@ import { auth, firestore } from "@/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import NoUsesModalHandler from "./nousesmodalhandler";
-import firebase from "@/firebase/firebase";
 
 const formTabs = [
   {
@@ -78,7 +77,11 @@ export default function Translator() {
   ) => {
     setLoading(true);
     const fp = await FingerprintJS.load();
-    const { visitorId } = await fp.get();
+    const result = await fp.get();
+    const { canvas, fonts, ...components } = result.components;
+    const visitorId = FingerprintJS.hashComponents(components);
+    console.log(FingerprintJS.componentsToDebugString(components));
+    console.log(visitorId);
     try {
       const request = {
         code: input,
