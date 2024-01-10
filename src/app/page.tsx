@@ -25,7 +25,7 @@ export default function Home() {
           </div>
           <div className="text-md text-white font-sans">
             <p>
-              Translation is powered by state of the art AI language models that
+              Translation is powered by state of the art AI language systems that
               have been trained on the syntax of the IB pseudocode. Code
               tranlated into Python or Javascript can be run.
             </p>
