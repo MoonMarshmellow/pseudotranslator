@@ -4,28 +4,37 @@ import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 import { CodeBlock } from '@/components/ui/codeblock'
 import { MemoizedReactMarkdown } from '@/components/markdown'
+import { User } from 'firebase/auth'
+import { FaUserCircle } from 'react-icons/fa'
+import Image from 'next/image'
 
 export interface ChatMessageProps {
   message: Message
+  user: User | null | undefined
 }
 
-export function ChatMessage({ message, ...props }: ChatMessageProps) {
+export function ChatMessage({ message, user, ...props }: ChatMessageProps) {
+
   return (
     <div
-      className={cn('group relative mb-4 flex items-start md:-ml-12')}
+      className={cn('mb-4 flex items-start')}
       {...props}
     >
-      <div
-        className={cn(
-          'flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-md border shadow',
-          message.role === 'user'
-            ? 'bg-background'
-            : 'bg-primary text-primary-foreground'
+      {message.role == 'user' ?
+      <div className=''>
+        {user?.photoURL ? <img src={user.photoURL} className='rounded-full w-5 mt-3 mr-2'/> : (
+          <FaUserCircle className="text-[20px] mt-3 mr-2" />
         )}
-      >
-        {/* {message.role === 'user' ? <IconUser /> : <IconOpenAI />} */}
       </div>
-      <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
+      : 
+      <div className=''>
+        <Image src="/icon.png" alt='logo' height={20} width={20} className='mt-3 mr-2'/>
+      </div>
+      
+    }
+      
+      <div className="flex-1 px-1 ml-0 space-y-2 overflow-hidden">
+      <div className='h-[1px] w-full bg-lightgray'></div>
         <MemoizedReactMarkdown
           className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
 
@@ -56,6 +65,7 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
           {message.content}
         </MemoizedReactMarkdown>
         
+      
       </div>
     </div>
   )

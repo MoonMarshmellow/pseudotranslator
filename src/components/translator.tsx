@@ -16,6 +16,7 @@ import { auth, firestore } from "@/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import NoUsesModalHandler from "./nousesmodalhandler";
+import useFingerprint from "@/fingerprint/useFingerprint";
 
 const formTabs = [
   {
@@ -45,6 +46,7 @@ export default function Translator() {
   const [loading, setLoading] = useState(false);
   const [user, loadingUser, error] = useAuthState(auth);
   const [noUses, setNoUses] = useState(false);
+  const fingerprint = useFingerprint()
 
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
@@ -76,19 +78,14 @@ export default function Translator() {
     languageTo: string
   ) => {
     setLoading(true);
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    const { canvas, fonts, ...components } = result.components;
-    const visitorId = FingerprintJS.hashComponents(components);
-    console.log(FingerprintJS.componentsToDebugString(components));
-    console.log(visitorId);
+
     try {
       const request = {
         code: input,
         languageFrom: languageFrom,
         languageTo: languageTo,
         user: user,
-        deviceId: visitorId,
+        deviceId: fingerprint,
       };
       const res = await fetch("/api", {
         method: "POST",

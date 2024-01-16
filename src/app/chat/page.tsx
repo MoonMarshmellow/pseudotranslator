@@ -4,7 +4,7 @@ export default function Chat() {
     
     return (
         <>
-        <div>
+        <div className="mt-[-2px]">
             <ChatApp/>
         </div>
         </>
