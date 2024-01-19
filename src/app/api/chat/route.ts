@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       messages,
     });  
     const stream = OpenAIStream(response);
-    return new StreamingTextResponse(stream, {headers: {'Set-Cookie': `uuid=${allowed}; Expires=1000*36000`}});
+    return new StreamingTextResponse(stream, {headers: {'Set-Cookie': `uuid=${allowed}; Expires=Tue, 1 Jan 2036 00:00:01 GMT`}});
   } else if(allowed == true){
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',     

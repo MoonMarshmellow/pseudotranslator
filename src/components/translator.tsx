@@ -78,7 +78,10 @@ export default function Translator() {
     languageTo: string
   ) => {
     setLoading(true);
-
+    if (!input) {
+      setLoading(false)
+      return
+    }
     try {
       const request = {
         code: input,

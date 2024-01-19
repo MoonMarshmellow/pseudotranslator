@@ -34,9 +34,9 @@ export function ChatMessage({ message, user, ...props }: ChatMessageProps) {
     }
       
       <div className="flex-1 px-1 ml-0 space-y-2 overflow-hidden">
-      <div className='h-[1px] w-full bg-lightgray'></div>
+    
         <MemoizedReactMarkdown
-          className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+          className="prose pt-2 break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 border-t-[1px] border-lightgray"
 
           components={{
             p({ children }) {
