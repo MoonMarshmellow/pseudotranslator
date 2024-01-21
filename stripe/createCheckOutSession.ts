@@ -33,7 +33,7 @@ export const getPortalUrl = async (auth: Auth, functions: Functions): Promise<st
       );
       const { data } = await functionRef({
         customerId: user?.uid,
-        returnUrl: window.location.origin,
+        returnUrl: `${window.location.origin}/success`,
       });
   
       // Add a type to the data

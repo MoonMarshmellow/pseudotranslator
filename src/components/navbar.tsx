@@ -5,7 +5,7 @@ import User from "./user";
 export default function NavBar() {
   return (
     <>
-      <div className="align-middle pt-3 pb-3 mt-1 mb-1 flex flex-row content-center w-full font-sans text-white">
+      <div className="align-middle pt-3 pb-3 mt-1 mb-1 flex flex-row content-center w-full font-sans text-white z-20">
         <Image
           className="mt-[1px] h-[30px] mr-2"
           src="/icon.png"

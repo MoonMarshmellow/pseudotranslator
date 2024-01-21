@@ -6,10 +6,10 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import { AiOutlineLoading } from "react-icons/ai";
-import usePremiumStatus from "../../../stripe/usePremiumStatus";
+import usePremiumStatus from "../../../../stripe/usePremiumStatus";
 import { PiLightningFill } from "react-icons/pi";
 import Link from "next/link";
-import { getPortalUrl } from "../../../stripe/createCheckOutSession";
+import { getPortalUrl } from "../../../../stripe/createCheckOutSession";
 import { useRouter } from "next/navigation";
 
 export default function Account() {

@@ -21,6 +21,7 @@
     "next": "14.0.4",
     "openai": "^4.24.7",
     "react": "^18",
+    "react-confetti": "^6.1.0",
     "react-confetti-boom": "^1.0.0",
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",

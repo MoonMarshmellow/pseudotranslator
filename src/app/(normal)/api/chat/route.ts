@@ -3,6 +3,7 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { requestAllowed } from '@/lib/requestAllowed';
 import { auth } from '@/firebase/firebase';
+import { prompt } from './chatprompt';
  
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -33,8 +34,9 @@ export async function POST(req: NextRequest) {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',     
       stream: true,
-      messages,
-    });  
+      messages: [{"role": "system", "content": prompt}, ...messages]
+    });
+    console.log(messages)
     const stream = OpenAIStream(response);
     return new StreamingTextResponse(stream)
   } else if( allowed == false){
