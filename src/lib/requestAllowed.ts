@@ -9,6 +9,7 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
 
     if (user){
         try{
+            console.log('User Found, Checking Subscription')
             const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
             const q = query(subscriptionsRef, where('status', '==', 'active'))
             const docs = await getDocs(q)
