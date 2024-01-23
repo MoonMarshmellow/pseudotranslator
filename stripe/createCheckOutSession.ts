@@ -8,7 +8,7 @@ import {Functions, getFunctions, httpsCallable} from "firebase/functions"
 export async function createCheckoutSession(uid: string) {
     const checkoutSessionRef = doc(firestore, `users/${uid}/checkout_sessions/`, uuidv4() )
     await setDoc(checkoutSessionRef, {
-        price: "price_1OTRd1ACldyUprsCh1BWNa0X",
+        price: "price_1ObpnYACldyUprsCQRPIFeva",
         success_url: `${window.location.origin}/success`,
         cancel_url: window.location.origin
     })
