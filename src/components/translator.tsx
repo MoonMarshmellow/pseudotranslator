@@ -34,7 +34,7 @@ const formTabs = [
 
 export type TabItemType = {
   title: string;
-  icon?: IconType;
+  icon?: any
 };
 
 export default function Translator() {
