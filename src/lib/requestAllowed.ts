@@ -13,7 +13,6 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
             const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
             console.log('Got Ref')
             const q = query(subscriptionsRef, where('status', '==', 'active'))
-            console.log('Made Query')
             try{
                 const docs = await getDocs(q)
                 console.log('Got Sub Docs')
