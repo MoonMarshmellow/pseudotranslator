@@ -14,23 +14,28 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
             console.log('Got Ref')
             const q = query(subscriptionsRef, where('status', '==', 'active'))
             console.log('Made Query')
-            const docs = await getDocs(q)
-            console.log('Got Sub Docs')
-            if(docs.docs.length > 0){
-                console.log('subscribed')
-                return true
-            }else{
-                const docRef = doc(firestore, "users", user.uid)
-                const userDoc = await getDoc(docRef)
-                const data = userDoc.data()
-                if (data?.uses == 0) {
-                    return false
-                }
-                if (data?.uses > 0) {
-                    const res = await updateDoc(docRef, {uses: data?.uses - 1})
+            try{
+                const docs = await getDocs(q)
+                console.log('Got Sub Docs')
+                if(docs.docs.length > 0){
+                    console.log('subscribed')
                     return true
+                }else{
+                    const docRef = doc(firestore, "users", user.uid)
+                    const userDoc = await getDoc(docRef)
+                    const data = userDoc.data()
+                    if (data?.uses == 0) {
+                        return false
+                    }
+                    if (data?.uses > 0) {
+                        const res = await updateDoc(docRef, {uses: data?.uses - 1})
+                        return true
+                    }
+    
                 }
 
+            } catch(e) {
+                console.log(e)
             }
         }
         catch(e) {
