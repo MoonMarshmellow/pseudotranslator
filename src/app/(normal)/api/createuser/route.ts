@@ -14,8 +14,7 @@ export async function POST(request: NextRequest){
 
     const user = {
         ...userMsg,
-        subscription: "free",
-        uses: 100,
+        uses: 20,
         ip: ip
     }
 

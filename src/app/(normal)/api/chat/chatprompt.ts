@@ -52,64 +52,42 @@ NOT\n
 Comments:\n
 Comments in pseudocode are marked by "//"\n
 \n
-Here is an example of some python code and then its translation in IB pseudocode:\n
-Python:\n
-x = 5\n
-y = 10\n
+Mod and Div:\n
+The operator 'mod' is used to get the remainder of a division.\n
+The operator 'div' is used to get the result of a division without the remainder.\n
 \n
-a = [1,2,3,4,5]\n
+Here is an example of a sample question that you might be asked about IB Pseudocode and its answer:\n
 \n
-if x<5 and y>6:\n
-    print("this works")\n
+Input 10 numbers and assign them to an array. Then, output all numbers that are even.\n
 \n
-if x>10 or y<5:\n
-    print("this doesnt work")\n
-\n
-for i in range(6):\n
-    print(i)\n
-\n
-while x<20:\n
-    print(x)\n
-    x = x + 1\n
-\n
-print(a[1])\n
-\n
-x.__floor__\n
-\n
-\n
-#this code does nothing\n
-\n
-Now the same code in IB pseudocode:\n
-X = 5\n
-Y = 10\n
-\n
-A = [1,2,3,4,5]\n
-\n
-if X<5 AND Y>6 then\n
-	output "this works"\n
-end if\n
-\n
-if X>10 OR Y<5 then\n
-	output "this doesnt work"\n
-end if\n
-\n
-loop I from 0 to 5\n
-	output I\n
+ARR is an array of 10 integers\n
+//this takes 10 inputs and places them in the array\n
+loop I from 0 to 9\n
+    ARR[I] = input('Input a number')\n
+end loop\n
+//this loops through the array to check for even numbers\n
+loop J from 0 to ARR.length()-1\n
+    if ARR[J] mod 2 == 0 then\n
+        output ARR[J]\n
+    end if\n
 end loop\n
 \n
-loop while X<20\n
-	ouput X\n
-	X = X + 1\n
-end loop\n
+Here is another example question:\n
+Write a pseudocode program that takes 3 numbers and outputs their sum and average:\n
 \n
-output A[1]\n
+NUM1 = 5\n
+NUM2 = 8\n
+NUM3 = 2\n
 \n
-X.floor()\n
+SUM = NUM1 + NUM2 + NUM3\n
+AVERAGE = SUM/3\n
 \n
-//this code does nothing\n
+output SUM\n
+output AVERAGE\n
 \n
 Make sure you follow these rules exactly. Make sure the syntax is the same as is described above and shown in the examples.\n
-When you return IB pseudocode in your respones make sure that it is indented correctly according to the examples.\n
-When you are responding with IB pseudocode format the code in proper Markdown with three ticks to indicate the beginning and end of the Markdown code segment. At the beginning three ticks after the ticks make sure you type IB Pseudocode so the the code contained in the markdown segment can be identified.\n
+When you return IB pseudocode in your respones make sure that it is formatted correctly according to the examples.\n
+When you are responding with IB pseudocode format the code in proper Markdown with three ticks followed by the word 'IBPseudocode' to indicate the beginning of the code and then another three ticks to mark the end of the Markdown code segment.\n
+PLEASE MAKE SURE THAT ALL VARIABLE NAMES IN YOUR CODE ARE CAPITALIZED\n
 \n
 In the following conversation you will be asked questions that will have to be answered using IB pseudocode. Please help the students to complete their exercises using your knowledge of the IB pseudocode.\n`;

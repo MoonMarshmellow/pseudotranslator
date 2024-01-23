@@ -17,12 +17,12 @@ type ModalHandlerProps = {
 const modalData: ModalData[] = [
   {
     title: "Oops! You ran out of uses!",
-    body: "To reduce costs, anonymous users are limited to 10 translations or chat messages a month. To increase your monthly uses consider creating an account below!",
+    body: "To reduce costs, anonymous users are limited to 5 translations or chat messages a month. To increase your monthly uses consider creating an account below!",
     buttonText: "Sign up",
   },
   {
     title: "Thank you for using ibpseudo.com",
-    body: "Running this site is quite expensive so the amount of translations or chat messages free users can send are limited to 50 a month. To get unlimited translations and chat messages consider subscribing to the Premium Plan!",
+    body: "Running this site is quite expensive so the amount of translations or chat messages free users can send are limited to 20 a month. To get unlimited translations and chat messages consider subscribing to the Premium Plan!",
     buttonText: "Lets go!",
   },
 ];

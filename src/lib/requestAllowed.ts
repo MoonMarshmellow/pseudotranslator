@@ -47,7 +47,7 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
                     const data: TempUser = {
                         uuid: value,
                         ip: ip,
-                        uses: 19
+                        uses: 4
                     }
                     await setDoc(tempRef, JSON.parse(JSON.stringify(data)))
                     console.log("Current device not found in db so created")
