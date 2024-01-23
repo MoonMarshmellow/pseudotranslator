@@ -7,6 +7,7 @@ import { MemoizedReactMarkdown } from '@/components/markdown'
 import { User } from 'firebase/auth'
 import { FaUserCircle } from 'react-icons/fa'
 import Image from 'next/image'
+import logo from "../app/logo.png"
 
 export interface ChatMessageProps {
   message: Message
@@ -28,7 +29,7 @@ export function ChatMessage({ message, user, ...props }: ChatMessageProps) {
       </div>
       : 
       <div className=''>
-        <Image src="/icon.png" alt='logo' height={20} width={20} className='mt-3 mr-2'/>
+        <Image src={logo} alt='logo' height={20} width={20} className='mt-3 mr-2'/>
       </div>
       
     }

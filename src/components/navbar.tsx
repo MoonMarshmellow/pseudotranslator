@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import User from "./user";
+import logo from "../app/logo.png"
 
 export default function NavBar() {
   return (
@@ -8,7 +9,7 @@ export default function NavBar() {
       <div className="align-middle pt-3 pb-3 mt-1 mb-1 flex flex-row content-center w-full font-sans text-white z-20">
         <Image
           className="mt-[1px] h-[30px] mr-2"
-          src="/icon.png"
+          src={logo}
           height={30}
           width={30}
           alt="logo"
