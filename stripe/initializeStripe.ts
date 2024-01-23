@@ -5,7 +5,7 @@ let stripePromise: Stripe | null
 const initializeStripe = async () => {
     if (!stripePromise){
         stripePromise = await loadStripe(
-            "pk_test_51OTQfAACldyUprsCkVaypNVDqH3ZL9StKwgH0EGAGnPLGwEmMWvfTera3oH05yLutECtBlSehk7cAZHW22Shme1300KY81unI8"
+            "pk_live_51OTQfAACldyUprsCDgDwZ5KCbDTKaIHypyy851AL1wXJHTQZRM1bEpksEYNMTil5RnRuHgzGU26rH1ulVL8rqWT300vDLFfqR2"
         )
     }
     return stripePromise

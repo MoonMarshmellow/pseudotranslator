@@ -57,8 +57,7 @@ export default function Profile({ user }: ProfileProps) {
                   </Link>
                 )}
               </Menu.Item>
-
-              <form method="POST">
+     
                 <Menu.Item>
                   {({ active }) => (
                     <button
@@ -73,7 +72,6 @@ export default function Profile({ user }: ProfileProps) {
                     </button>
                   )}
                 </Menu.Item>
-              </form>
             </div>
           </Menu.Items>
         </Transition>
