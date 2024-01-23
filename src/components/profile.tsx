@@ -58,7 +58,7 @@ export default function Profile({ user }: ProfileProps) {
                 )}
               </Menu.Item>
 
-              <form method="POST" action="#">
+              <form method="POST" action="/">
                 <Menu.Item>
                   {({ active }) => (
                     <button

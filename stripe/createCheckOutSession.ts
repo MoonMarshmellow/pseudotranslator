@@ -9,7 +9,7 @@ export async function createCheckoutSession(uid: string) {
     const checkoutSessionRef = doc(firestore, `users/${uid}/checkout_sessions/`, uuidv4() )
     await setDoc(checkoutSessionRef, {
         price: "price_1OTRd1ACldyUprsCh1BWNa0X",
-        success_url: window.location.origin,
+        success_url: `${window.location.origin}/success`,
         cancel_url: window.location.origin
     })
 
@@ -33,7 +33,7 @@ export const getPortalUrl = async (auth: Auth, functions: Functions): Promise<st
       );
       const { data } = await functionRef({
         customerId: user?.uid,
-        returnUrl: `${window.location.origin}/success`,
+        returnUrl: `${window.location.origin}/account`,
       });
   
       // Add a type to the data
