@@ -11,8 +11,11 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
         try{
             console.log('User Found, Checking Subscription')
             const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
+            console.log('Got Ref')
             const q = query(subscriptionsRef, where('status', '==', 'active'))
+            console.log('Made Query')
             const docs = await getDocs(q)
+            console.log('Got Sub Docs')
             if(docs.docs.length > 0){
                 console.log('subscribed')
                 return true
