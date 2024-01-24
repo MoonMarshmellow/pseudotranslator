@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.17",
     "@radix-ui/react-dialog": "^1.0.5",
     "@stripe/stripe-js": "^2.2.2",
+    "@vercel/analytics": "^1.1.2",
     "ai": "^2.2.31",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

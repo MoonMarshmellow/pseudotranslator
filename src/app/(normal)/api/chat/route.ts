@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get('X-Forwarded-For')
   const deviceId = request.deviceId
   const allowed = await requestAllowed(user, ip as string, auth, req.cookies.get('uuid'), deviceId)
-
+  console.log(prompt)
   if (typeof allowed == 'string') {
 
     const response = await openai.chat.completions.create({
