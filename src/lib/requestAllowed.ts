@@ -13,29 +13,27 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
             const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
             console.log('Got Ref')
             const q = query(subscriptionsRef, where('status', '==', 'active'))
-            try{
-                const docs = await getDocs(q)
-                console.log('Got Sub Docs')
-                if(docs.docs.length > 0){
-                    console.log('subscribed')
-                    return true
-                }else{
-                    const docRef = doc(firestore, "users", user.uid)
-                    const userDoc = await getDoc(docRef)
-                    const data = userDoc.data()
-                    if (data?.uses == 0) {
-                        return false
-                    }
-                    if (data?.uses > 0) {
-                        const res = await updateDoc(docRef, {uses: data?.uses - 1})
-                        return true
-                    }
-    
+            
+            const docs = await getDocs(q)
+            console.log('Got Sub Docs')
+            if(docs.docs.length > 0){
+                console.log('subscribed')
+                return true
+            }else{
+                const docRef = doc(firestore, "users", user.uid)
+                const userDoc = await getDoc(docRef)
+                const data = userDoc.data()
+                if (data?.uses == 0) {
+                    return false
                 }
-
-            } catch(e) {
-                console.log(e)
+                if (data?.uses > 0) {
+                    const res = await updateDoc(docRef, {uses: data?.uses - 1})
+                    return true
+                }
+    
             }
+
+
         }
         catch(e) {
             console.log("user",e)
