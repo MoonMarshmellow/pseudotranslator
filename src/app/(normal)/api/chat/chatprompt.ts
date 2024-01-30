@@ -27,6 +27,7 @@ The end of an if statement is marked by "end if"
 Arrays:
 Array names are always CAPITAL, the same as variables.
 An item in an array can be accessed by: "ARRAYNAME[index]", where the index is the index of the item in the array.
+Indexes in pseudocode start from 0.
 \n
 Methods and Functions:
 Methods and functions have the same name as the programming language you are translating from, but they are in camelCase.
