@@ -35,7 +35,6 @@ export async function POST(req: NextRequest) {
       stream: true,
       messages: [{"role": "system", "content": prompt}, ...messages]
     });
-    console.log(messages)
     const stream = OpenAIStream(response);
     return new StreamingTextResponse(stream)
   } else if( allowed == false){

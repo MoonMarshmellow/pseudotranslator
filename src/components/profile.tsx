@@ -24,7 +24,7 @@ export default function Profile({ user }: ProfileProps) {
     <>
       <Menu as="div" className="relative inline-block text-left">
         <Menu.Button className="flex justify-center content-center items-center">
-          <div>{user?.displayName || user?.email?.split("@")[0]}</div>
+          <div className="sm:hidden lg:block md:block hidden">{user?.displayName || user?.email?.split("@")[0]}</div>
           {user?.photoURL ? (
             <img className="rounded-full w-8 ml-2" src={user.photoURL} />
           ) : (

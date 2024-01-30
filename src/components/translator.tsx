@@ -139,7 +139,7 @@ export default function Translator() {
               onBlur={onBlur}
               onChange={onInputChange}
               placeholder="Paste your code here!"
-              className="peer w-full min-h-[160px] bg-[#0f0f0f] resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/5 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+              className="peer w-full min-h-[200px] bg-[#0f0f0f] resize-y rounded-b-[8px] border border-t-0 border-blue-gray-200 px-3 py-2.5 font-sans text-sm font-normal text-white outline outline-0 focus:border-2 focus:border-accent focus:border-t-0 focus:bg-accent/5 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
             ></TextareaAutosize>
           </div>
           {loading ? (

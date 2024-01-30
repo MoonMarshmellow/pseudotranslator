@@ -16,8 +16,8 @@ type ModalHandlerProps = {
 };
 const modalData: ModalData[] = [
   {
-    title: "Oops! You ran out of uses!",
-    body: "To reduce costs, anonymous users are limited to 5 translations or chat messages a month. To increase your monthly uses consider creating an account below!",
+    title: "Rate Limited",
+    body: "To prevent misuse, anonymous users are limited to 5 translations or chat messages a day. To get infinite uses consider creating an account below!",
     buttonText: "Sign up",
   },
   {

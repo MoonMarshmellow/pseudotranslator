@@ -8,36 +8,37 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 export const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string ) => {
 
     if (user){
-        try{
-            console.log('User Found, Checking Subscription')
-            const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
-            console.log('Got Ref')
-            const q = query(subscriptionsRef, where('status', '==', 'active'))
+        return true
+        // try{
+        //     console.log('User Found, Checking Subscription')
+        //     const subscriptionsRef = collection(firestore, 'users', user.uid, 'subscriptions')
+        //     console.log('Got Ref')
+        //     const q = query(subscriptionsRef, where('status', '==', 'active'))
             
-            const docs = await getDocs(q)
-            console.log('Got Sub Docs')
-            if(docs.docs.length > 0){
-                console.log('subscribed')
-                return true
-            }else{
-                const docRef = doc(firestore, "users", user.uid)
-                const userDoc = await getDoc(docRef)
-                const data = userDoc.data()
-                if (data?.uses == 0) {
-                    return false
-                }
-                if (data?.uses > 0) {
-                    const res = await updateDoc(docRef, {uses: data?.uses - 1})
-                    return true
-                }
+        //     const docs = await getDocs(q)
+        //     console.log('Got Sub Docs')
+        //     if(docs.docs.length > 0){
+        //         console.log('subscribed')
+        //         return true
+        //     }else{
+        //         const docRef = doc(firestore, "users", user.uid)
+        //         const userDoc = await getDoc(docRef)
+        //         const data = userDoc.data()
+        //         if (data?.uses == 0) {
+        //             return false
+        //         }
+        //         if (data?.uses > 0) {
+        //             const res = await updateDoc(docRef, {uses: data?.uses - 1})
+        //             return true
+        //         }
     
-            }
+        //     }
 
 
-        }
-        catch(e) {
-            console.log("user",e)
-        }
+        // }
+        // catch(e) {
+        //     console.log("user",e)
+        // }
 
     }
     else if(!user){

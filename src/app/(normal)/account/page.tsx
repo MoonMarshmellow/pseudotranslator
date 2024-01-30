@@ -87,7 +87,8 @@ export default function Account() {
             </div>
             <div className="flex flex-col mb-2">
               <div className="text-gray-300">Uses Left: </div>
-              <div className="text-white">{premium ? "Unlimited" : uses}</div>
+              {/* <div className="text-white">{premium ? "Unlimited" : uses}</div> */}
+              <div className="text-white">Unlimited</div>
             </div>
           </div>
 
@@ -95,7 +96,7 @@ export default function Account() {
             <p className="text-red-500 text-sm font-sans">{error.message}</p>
           )}
 
-          <div className="text-white text-lg font-sans mt-3">
+          {/* <div className="text-white text-lg font-sans mt-3">
             <div>Billing</div>
           </div>
           {premium ? (
@@ -128,7 +129,7 @@ export default function Account() {
                 <PiLightningFill className="ml-[4px] mt-[1px]" />
               </Link>
             </div>
-          )}
+          )} */}
         </>
       ) : (
         <>
