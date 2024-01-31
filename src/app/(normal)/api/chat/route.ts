@@ -11,7 +11,7 @@ const openai = new OpenAI({
 });
  
 // Set the runtime to edge for best performance
-// export const runtime = 'edge';
+export const runtime = 'edge';
  
 export async function POST(req: NextRequest) {
   const request = await req.json();
