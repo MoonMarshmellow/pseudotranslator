@@ -1,12 +1,10 @@
-import { firestore } from "@/firebase/firebase"
+import "server-only"
 import { TempUser } from "@/types/tempuser"
 import { Auth, User } from "firebase/auth"
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"
-
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 
-export const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string ) => {
 
+export const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string, db: any ) => {
     if (user){
         return true
         // try{
@@ -47,16 +45,16 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
             console.log('Checked cookie or device id')
             console.log('Value', value)
             if (value){
-                const tempRef = doc(firestore, "temps", value)
-                const tempDoc = await getDoc(tempRef)
+                const tempRef = db.collection('temps').doc(value)
+                const tempDoc = await tempRef.get()
                 const data = tempDoc.data()
-                if(!tempDoc.exists()){
+                if(!tempDoc.exists){
                     const data: TempUser = {
                         uuid: value,
                         ip: ip,
                         uses: 4
                     }
-                    await setDoc(tempRef, JSON.parse(JSON.stringify(data)))
+                    await tempRef.set(JSON.parse(JSON.stringify(data)))
                     console.log("Current device not found in db so created")
                     return (value)
                 }
@@ -65,7 +63,7 @@ export const requestAllowed = async (user: User | null | undefined, ip: string, 
                     return false
                 }
                 if (data?.uses > 0) {
-                    const res = await updateDoc(tempRef, {uses: data?.uses - 1})
+                    await tempRef.update({uses: data?.uses - 1})
                     console.log('updated uses')
                     if(uuid){
                         return(true)
