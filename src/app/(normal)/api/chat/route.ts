@@ -14,11 +14,14 @@ const openai = new OpenAI({
 export const runtime = 'edge';
  
 export async function POST(req: NextRequest) {
+
   const request = await req.json();
   const messages = request.messages
   const user = request.user
   const ip = req.headers.get('X-Forwarded-For')
   const deviceId = request.deviceId
+ 
+
   const allowed = await requestAllowed(user, ip as string, auth, req.cookies.get('uuid'), deviceId)
   if (typeof allowed == 'string') {
 
