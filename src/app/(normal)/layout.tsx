@@ -7,7 +7,7 @@ import NavBar from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ibpseudo.com",
+  title: "ibpseudo",
   description: "All things IB Pseudocode",
 };
 

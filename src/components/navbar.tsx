@@ -15,7 +15,7 @@ export default function NavBar() {
           width={30}
           alt="logo"
         />
-        <p className="text-xl font-semibold mr-4 sm:block lg:block md:block hidden">ibpseudo.com</p>
+        <p className="text-xl font-semibold mr-4 sm:block lg:block md:block hidden">ibpseudo</p>
         <div className="flex flex-row space-x-2">
           <Link
             className="bg-lightgray/70 w-20 mt-[6px] rounded-full h-5 text-[13px] align-middle flex flex-row justify-center hover:bg-lightgray transition-all border border-gray-400"
