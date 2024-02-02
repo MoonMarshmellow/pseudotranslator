@@ -8,9 +8,9 @@ import { Auth, User } from 'firebase/auth';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { TempUser } from '@/types/tempuser';
 import { initializeAdmin } from '@/firebase/firebaseAdmin';
+import { giveFirestore, initAdmin } from '@/firebase/firebase_ADMIN';
 import { getFirestore } from 'firebase-admin/firestore';
-import admin from "firebase-admin";
-import { initializeApp } from "firebase-admin/app";
+ 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -22,49 +22,6 @@ export const runtime = 'edge';
 
  
 export async function POST(req: NextRequest) {
-  interface FirebaseAdminAppParams {
-    projectId: string;
-    clientEmail: string;
-    storageBucket: string;
-    privateKey: string;
-  }
-   
-  async function formatPrivateKey(key: string) {
-    return key.replace(/\\n/g, "\n");
-  }
-   
-  async function createFirebaseAdminApp(params: FirebaseAdminAppParams) {
-    const privateKey = await formatPrivateKey(params.privateKey);
-   
-    if (admin.apps.length > 0) {
-      return admin.app();
-    }
-   
-    const cert = admin.credential.cert({
-      projectId: params.projectId,
-      clientEmail: params.clientEmail,
-      privateKey,
-    });
-   
-    return initializeApp({
-      credential: cert,
-      projectId: params.projectId,
-      storageBucket: params.storageBucket,
-    });
-  }
-   
-  async function initAdmin() {
-    const params = {
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL as string,
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET as string,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY as string,
-    };
-   
-    return await createFirebaseAdminApp(params);
-  }
-  initAdmin()
-  const db = getFirestore()
 
   const request = await req.json();
   const messages = request.messages
@@ -72,6 +29,7 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get('X-Forwarded-For')
   const deviceId = request.deviceId
  
+  const db = await giveFirestore()
   const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string, db: any ) => {
     if (user){
         return true
