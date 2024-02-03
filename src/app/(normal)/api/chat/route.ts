@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   const deviceId = request.deviceId
  
 
-  const allowed = await requestAllowed(user, ip as string, auth, req.cookies.get('uuid'), deviceId)
+  const allowed = true
   if (typeof allowed == 'string') {
 
     const response = await openai.chat.completions.create({
