@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     const ip = request.headers.get('X-Forwarded-For')
     const deviceId = message.deviceId
-    const allowed = await requestAllowed(user, ip as string, auth, request.cookies.get('uuid'), deviceId)
+    const allowed = await requestAllowed(user, ip as string, request.cookies.get('uuid'), deviceId)
 
 
 

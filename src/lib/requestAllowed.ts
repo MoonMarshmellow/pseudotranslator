@@ -5,7 +5,7 @@ import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc } fro
 
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 
-export const requestAllowed = async (user: User | null | undefined, ip: string, auth: Auth, uuid: RequestCookie| undefined, deviceId: string ) => {
+export const requestAllowed = async (user: User | null | undefined, ip: string | null, uuid: RequestCookie| undefined, deviceId: string ) => {
 
     if (user){
         return true
